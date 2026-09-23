@@ -1,0 +1,5 @@
+# Example entity customizations
+# Replace or expand this file with your actual customizations.
+
+light.living_room:
+  friendly_name: Living Room Light

@@ -1,0 +1,13 @@
+# Example automation file
+# Replace or expand this file with your actual automations.
+
+- alias: Example automation
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.front_door
+      to: "on"
+  conditions: []
+  actions:
+    - action: notify.mobile_app_phone
+      data:
+        message: "Front door opened"

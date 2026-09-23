@@ -1,0 +1,8 @@
+# Example scenes file
+# Replace or expand this file with your actual scenes.
+
+- name: Evening Scene
+  entities:
+    light.living_room:
+      state: "on"
+      brightness: 150

@@ -1,0 +1,40 @@
+# Home Assistant configuration entrypoint
+# This file intentionally stays lean and delegates most logic to smaller YAML files.
+
+homeassistant:
+  name: Home
+  unit_system: imperial
+  time_zone: America/Chicago
+  customize: !include customize.yaml
+
+# Load the default integrations and standard HA behavior
+default_config:
+
+# Example: include packages by folder
+# Files in packages/ can be broken into logical groups like network, climate, lighting, etc.
+# package: !include_dir_named packages
+
+# Include standard YAML files
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+group: !include groups.yaml
+
+# Text-to-speech
+tts:
+  - platform: google_translate
+
+# Frontend config example
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Example for logging to file if you want local logs
+logger:
+  default: info
+  logs:
+    homeassistant.components.websocket_api: warning
+
+# Add other config as needed below.
+# Example:
+# light: !include lights.yaml
+# climate: !include climate.yaml

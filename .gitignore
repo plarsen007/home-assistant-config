@@ -1,0 +1,30 @@
+# Home Assistant runtime files
+.storage/
+.storage/*
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Secrets and environment-specific config
+.secrets.yaml
+.secrets
+*.local
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python cache (if any custom components/scripts use Python)
+__pycache__/
+*.pyc
+
+# Local backups
+*.bak
+*.tmp
+
+# Optional: exclude any generated files you do not want tracked
+# generated/
+# snapshots/

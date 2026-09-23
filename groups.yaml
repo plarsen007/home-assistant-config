@@ -1,0 +1,8 @@
+# Example groups file
+# Replace or expand this file with your actual groups.
+
+default_view:
+  name: Home
+  entities:
+    - light.living_room
+    - switch.front_porch_light
