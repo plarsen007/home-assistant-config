@@ -1,0 +1,8 @@
+# Example package: climate configuration
+# This file demonstrates modular climate setup.
+
+climate:
+  - platform: mqtt
+    name: Living Room Thermostat
+    temperature_command_topic: "homeassistant/climate/thermostat/set/temp"
+    temperature_state_topic: "homeassistant/climate/thermostat/state/temp"

@@ -1,0 +1,9 @@
+# Example package: network configuration
+# This file demonstrates a modular arrangement for Home Assistant config.
+
+network:
+  # Example network config placeholder
+  # Replace with actual network-related integrations or entities.
+  # For example:
+  # - platform: dhcp
+  # - platform: zeroconf

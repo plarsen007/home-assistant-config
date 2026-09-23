@@ -1,0 +1,9 @@
+# Example package: lights configuration
+# This file demonstrates a modular package pattern.
+
+light:
+  - platform: group
+    name: Living Room Lights
+    entities:
+      - light.living_room
+      - light.reading_lamp
