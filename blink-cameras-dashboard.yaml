@@ -1,0 +1,160 @@
+title: Cameras
+views:
+  - title: Cameras
+    path: cameras
+    icon: mdi:cctv
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Cameras
+            heading_style: title
+            icon: mdi:cctv
+          - type: tile
+            entity: alarm_control_panel.blink_5218_boulder_dr
+            name: Blink security
+          - type: button
+            name: Arm All Cameras
+            icon: mdi:shield-lock
+            tap_action:
+              action: call-service
+              service: alarm_control_panel.alarm_arm_away
+              target:
+                entity_id: alarm_control_panel.blink_5218_boulder_dr
+          - type: button
+            name: Disarm All Cameras
+            icon: mdi:shield-off
+            tap_action:
+              action: call-service
+              service: alarm_control_panel.alarm_disarm
+              target:
+                entity_id: alarm_control_panel.blink_5218_boulder_dr
+          - type: button
+            name: Whole Home
+            icon: mdi:home
+            tap_action:
+              action: navigate
+              navigation_path: /whole-home/overview
+          - type: button
+            name: Main Level
+            icon: mdi:home-floor-1
+            tap_action:
+              action: navigate
+              navigation_path: /main-level/main-level
+          - type: button
+            name: Basement Theater
+            icon: mdi:movie-open
+            tap_action:
+              action: navigate
+              navigation_path: /basement-control/basement
+          - type: button
+            name: Weather
+            icon: mdi:weather-partly-cloudy
+            tap_action:
+              action: navigate
+              navigation_path: /weather-station/weather
+      - type: grid
+        cards:
+          - type: heading
+            heading: Front Door and Driveway
+            heading_style: subtitle
+            icon: mdi:door-camera
+          - type: picture-glance
+            camera_image: camera.front_door_voice
+            camera_view: live
+            entities:
+              - entity: binary_sensor.front_door_voice_motion
+                name: Motion
+              - entity: binary_sensor.front_door_voice_camera_armed
+                name: Armed
+              - entity: binary_sensor.front_door_voice_battery
+                name: Battery
+              - entity: switch.front_door_voice_camera_motion_detection
+                name: Motion detection
+          - type: picture-glance
+            camera_image: camera.driveway_voice
+            camera_view: live
+            entities:
+              - entity: binary_sensor.driveway_voice_motion
+                name: Motion
+              - entity: binary_sensor.driveway_voice_camera_armed
+                name: Armed
+              - entity: binary_sensor.driveway_voice_battery
+                name: Battery
+              - entity: switch.driveway_voice_camera_motion_detection
+                name: Motion detection
+      - type: grid
+        cards:
+          - type: heading
+            heading: Garage and Basement
+            heading_style: subtitle
+            icon: mdi:garage-variant
+          - type: picture-glance
+            camera_image: camera.garage
+            camera_view: live
+            entities:
+              - entity: binary_sensor.garage_motion
+                name: Motion
+              - entity: binary_sensor.garage_camera_armed
+                name: Armed
+              - entity: binary_sensor.garage_battery
+                name: Battery
+              - entity: switch.garage_camera_motion_detection
+                name: Motion detection
+          - type: picture-glance
+            camera_image: camera.basment_door
+            camera_view: live
+            entities:
+              - entity: binary_sensor.basment_door_motion
+                name: Motion
+              - entity: binary_sensor.basment_door_camera_armed
+                name: Armed
+              - entity: binary_sensor.basment_door_battery
+                name: Battery
+              - entity: switch.basment_door_camera_motion_detection
+                name: Motion detection
+      - type: grid
+        cards:
+          - type: heading
+            heading: Interior Cameras
+            heading_style: subtitle
+            icon: mdi:home-eye
+          - type: picture-glance
+            camera_image: camera.kitchen_inside
+            camera_view: live
+            entities:
+              - entity: binary_sensor.kitchen_inside_motion
+                name: Motion
+              - entity: binary_sensor.kitchen_inside_camera_armed
+                name: Armed
+              - entity: binary_sensor.kitchen_inside_battery
+                name: Battery
+              - entity: switch.kitchen_inside_camera_motion_detection
+                name: Motion detection
+          - type: picture-glance
+            camera_image: camera.bonus_room
+            camera_view: live
+            entities:
+              - entity: binary_sensor.bonus_room_motion
+                name: Motion
+              - entity: binary_sensor.bonus_room_camera_armed
+                name: Armed
+              - entity: binary_sensor.bonus_room_battery
+                name: Battery
+              - entity: switch.bonus_room_camera_motion_detection
+                name: Motion detection
+          - type: picture-glance
+            camera_image: camera.old_cam_1
+            camera_view: live
+            entities:
+              - entity: binary_sensor.old_cam_1_motion
+                name: Motion
+              - entity: binary_sensor.old_cam_1_camera_armed
+                name: Armed
+              - entity: binary_sensor.old_cam_1_battery
+                name: Battery
+              - entity: switch.old_cam_1_camera_motion_detection
+                name: Motion detection

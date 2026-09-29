@@ -1,11 +1,43 @@
-# Example scripts file
-# Replace or expand this file with your actual scripts.
-
-example_script:
-  alias: Example Script
+basement_living_area_10_warm:
+  alias: Basement Living Area - 10% Warm
   sequence:
-    - service: light.turn_on
-      target:
-        entity_id: light.living_room
-      data:
-        brightness_pct: 50
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.bar_light_1
+      - light.bar_light_2
+      - light.bar_light_3
+      - light.bar_light_4
+      - light.window_area_1
+      - light.window_area_2
+      - light.tv_area_light_1
+      - light.tv_area_light_2
+      - light.tv_area_light_3
+      - light.tv_area_light_4
+    data:
+      brightness_pct: 10
+      color_temp_kelvin: 2700
+  mode: single
+basement_living_area_5_soft_white:
+  alias: Basement Living Area - 5% Soft White
+  mode: single
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.tv_area_light_1
+      - light.tv_area_light_2
+      - light.tv_area_light_3
+      - light.tv_area_light_4
+      - light.pendant_light_1
+      - light.pendant_light_2
+      - light.bar_light_1
+      - light.bar_light_2
+      - light.bar_light_3
+      - light.bar_light_4
+      - light.window_area_1
+      - light.window_area_2
+      - light.under_steps_light
+    data:
+      brightness_pct: 5
+      color_temp_kelvin: 2700

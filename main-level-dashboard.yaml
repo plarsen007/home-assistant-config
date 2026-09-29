@@ -1,0 +1,300 @@
+title: Main Level Control
+views:
+  - title: Main Level
+    path: main-level
+    icon: mdi:home-floor-1
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Main Level
+            heading_style: title
+            icon: mdi:home-floor-1
+          - type: button
+            name: Basement Theater
+            icon: mdi:movie-open
+            tap_action:
+              action: navigate
+              navigation_path: /basement-control/basement
+          - type: button
+            name: Weather Station
+            icon: mdi:weather-partly-cloudy
+            tap_action:
+              action: navigate
+              navigation_path: /weather-station/weather
+          - type: button
+            name: Whole Home
+            icon: mdi:home
+            tap_action:
+              action: navigate
+              navigation_path: /whole-home/overview
+          - type: button
+            name: Bright
+            icon: mdi:brightness-7
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.kitchen_kitchen_light_1
+                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_3
+                  - light.kitchen_kitchen_light_4
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_left_fireplace_light
+                  - light.living_room_right_fireplace_light
+                  - light.living_room_banister_lights
+                  - light.living_room_entryway_bulb_1
+                  - light.living_room_entryway_bulb_2
+                  - light.living_room_entryway_bulb_3
+                  - light.living_room_hallway_light_1
+                  - light.living_room_hallway_light_2
+                  - light.living_room_hallway_light_3
+              data:
+                brightness_pct: 100
+                color_temp_kelvin: 4000
+          - type: button
+            name: Evening
+            icon: mdi:weather-sunset
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.kitchen_kitchen_light_1
+                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_3
+                  - light.kitchen_kitchen_light_4
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_left_fireplace_light
+                  - light.living_room_right_fireplace_light
+                  - light.living_room_banister_lights
+                  - light.living_room_entryway_bulb_1
+                  - light.living_room_entryway_bulb_2
+                  - light.living_room_entryway_bulb_3
+                  - light.living_room_hallway_light_1
+                  - light.living_room_hallway_light_2
+                  - light.living_room_hallway_light_3
+              data:
+                brightness_pct: 58
+                color_temp_kelvin: 2700
+          - type: button
+            name: Dinner
+            icon: mdi:food-fork-drink
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.kitchen_kitchen_light_1
+                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_3
+                  - light.kitchen_kitchen_light_4
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_left_fireplace_light
+                  - light.living_room_right_fireplace_light
+              data:
+                brightness_pct: 70
+                color_temp_kelvin: 3000
+          - type: button
+            name: Warm 100%
+            icon: mdi:lightbulb-on
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.kitchen_kitchen_light_1
+                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_3
+                  - light.kitchen_kitchen_light_4
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_left_fireplace_light
+                  - light.living_room_right_fireplace_light
+                  - light.living_room_banister_lights
+                  - light.living_room_entryway_bulb_1
+                  - light.living_room_entryway_bulb_2
+                  - light.living_room_entryway_bulb_3
+                  - light.living_room_hallway_light_1
+                  - light.living_room_hallway_light_2
+                  - light.living_room_hallway_light_3
+              data:
+                brightness_pct: 100
+                color_temp_kelvin: 2700
+          - type: button
+            name: Late night
+            icon: mdi:weather-night
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_banister_lights
+                  - light.living_room_hallway_light_1
+                  - light.living_room_hallway_light_2
+                  - light.living_room_hallway_light_3
+              data:
+                brightness_pct: 15
+                color_temp_kelvin: 2200
+          - type: button
+            name: All off
+            icon: mdi:lightbulb-off-outline
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              target:
+                entity_id:
+                  - light.kitchen_kitchen_light_1
+                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_3
+                  - light.kitchen_kitchen_light_4
+                  - light.unassigned_kitchen_island_lights
+                  - light.living_room_left_light_1
+                  - light.living_room_left_light_3
+                  - light.living_room_right_light_2
+                  - light.living_room_right_light_4
+                  - light.living_room_left_fireplace_light
+                  - light.living_room_right_fireplace_light
+                  - light.living_room_banister_lights
+                  - light.living_room_entryway_bulb_1
+                  - light.living_room_entryway_bulb_2
+                  - light.living_room_entryway_bulb_3
+                  - light.living_room_hallway_light_1
+                  - light.living_room_hallway_light_2
+                  - light.living_room_hallway_light_3
+      - type: grid
+        cards:
+          - type: heading
+            heading: Living Room
+            heading_style: subtitle
+            icon: mdi:sofa-outline
+          - type: light
+            entity: light.living_room_left_light_1
+            name: Left lamps
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_right_light_2
+            name: Right lamps
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_left_fireplace_light
+            name: Left fireplace
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_right_fireplace_light
+            name: Right fireplace
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: tile
+            entity: light.living_room_banister_lights
+            name: Banister
+            features:
+              - type: light-brightness
+      - type: grid
+        cards:
+          - type: heading
+            heading: Kitchen
+            heading_style: subtitle
+            icon: mdi:chef-hat
+          - type: light
+            entity: light.kitchen_kitchen_light_1
+            name: Kitchen light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.kitchen_kitchen_light_2
+            name: Kitchen light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.kitchen_kitchen_light_3
+            name: Kitchen light 3
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.kitchen_kitchen_light_4
+            name: Kitchen light 4
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: tile
+            entity: light.unassigned_kitchen_island_lights
+            name: Island
+            features:
+              - type: light-brightness
+      - type: grid
+        cards:
+          - type: heading
+            heading: Hallway and Entry
+            heading_style: subtitle
+            icon: mdi:door-open
+          - type: light
+            entity: light.living_room_entryway_bulb_1
+            name: Entry light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_entryway_bulb_2
+            name: Entry light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_entryway_bulb_3
+            name: Entry light 3
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_hallway_light_1
+            name: Hallway light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_hallway_light_2
+            name: Hallway light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.living_room_hallway_light_3
+            name: Hallway light 3
+            brightness: true
+            color_temp: true
+            color_picker: true

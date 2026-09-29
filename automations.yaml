@@ -1,13 +1,153 @@
-# Example automation file
-# Replace or expand this file with your actual automations.
-
-- alias: Example automation
+- id: blink_disarm_home_day
+  alias: 'Blink: Disarm when home during day'
+  description: Turn off Blink monitoring when Peter is home and it's daytime. Rechecks
+    periodically in case something else (Blink's own schedule, manual arm, etc.) re-arms
+    it.
   triggers:
-    - trigger: state
-      entity_id: binary_sensor.front_door
-      to: "on"
+  - to: home
+    entity_id:
+    - person.peter_larsen
+    trigger: state
+  - trigger: sun
+    event: sunrise
+  - trigger: time_pattern
+    minutes: /15
+  conditions:
+  - condition: state
+    entity_id: person.peter_larsen
+    state: home
+  - before: sunset
+    condition: sun
+    after: sunrise
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+      state: disarmed
+  actions:
+  - target:
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+    action: alarm_control_panel.alarm_disarm
+  mode: single
+- id: blink_arm_away_not_home
+  alias: 'Blink: Arm away when not home'
+  description: Arm Blink in away mode when Peter leaves
+  triggers:
+  - to: not_home
+    entity_id:
+    - person.peter_larsen
+    trigger: state
   conditions: []
   actions:
-    - action: notify.mobile_app_phone
-      data:
-        message: "Front door opened"
+  - target:
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+    action: alarm_control_panel.alarm_arm_away
+  mode: single
+- id: blink_arm_home_at_night
+  alias: 'Blink: Arm home at night while present'
+  description: Arm Blink in home mode at sunset if Peter is still home
+  triggers:
+  - trigger: sun
+    event: sunset
+  conditions:
+  - condition: state
+    entity_id: person.peter_larsen
+    state: home
+  actions:
+  - target:
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+    action: alarm_control_panel.alarm_arm_home
+  mode: single
+- id: ecobee_hold_comfort_wfh_hot
+  alias: 'Ecobee: Hold comfort temp when WFH and hot'
+  description: Override Ecobee's away schedule setpoint back to 72F when home and
+    outdoor temp is 80F or above
+  triggers:
+  - above: 72
+    attribute: temperature
+    entity_id:
+    - climate.kitchen_thermostat
+    trigger: numeric_state
+  - to: home
+    entity_id:
+    - person.peter_larsen
+    trigger: state
+  - trigger: time_pattern
+    minutes: /30
+  conditions:
+  - condition: state
+    entity_id: person.peter_larsen
+    state: home
+  - above: 79
+    condition: numeric_state
+    attribute: temperature
+    entity_id: weather.forecast_home
+  - above: 72
+    condition: numeric_state
+    attribute: temperature
+    entity_id: climate.kitchen_thermostat
+  actions:
+  - data:
+      hvac_mode: cool
+      temperature: 72
+    target:
+      entity_id: climate.kitchen_thermostat
+    action: climate.set_temperature
+  mode: single
+- id: blink_arm_static_1030pm
+  alias: 'Blink: Arm at 10:30pm nightly'
+  description: Static nightly arm-home time, replaces sunset-based arming
+  triggers:
+  - trigger: time
+    at: '22:30:00'
+  conditions: []
+  actions:
+  - target:
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+    action: alarm_control_panel.alarm_arm_home
+  mode: single
+- id: blink_disarm_static_445am
+  alias: 'Blink: Disarm at 4:45am nightly'
+  description: Static nightly disarm time
+  triggers:
+  - trigger: time
+    at: 04:45:00
+  conditions: []
+  actions:
+  - target:
+      entity_id: alarm_control_panel.blink_5218_boulder_dr
+    action: alarm_control_panel.alarm_disarm
+  mode: single
+- id: rainbird_skip_forecasted_rain
+  alias: 'Rain Bird: Skip watering if rain forecasted'
+  description: Each evening, checks tomorrow's forecast; if meaningful rain is expected,
+    sets a rain delay and notifies Peter
+  triggers:
+  - trigger: time
+    at: '19:00:00'
+  conditions: []
+  actions:
+  - response_variable: forecast
+    data:
+      type: daily
+    target:
+      entity_id: weather.forecast_home
+    action: weather.get_forecasts
+  - default: []
+    choose:
+    - sequence:
+      - data:
+          value: 1
+        target:
+          entity_id: number.rain_bird_controller_rain_delay
+        action: number.set_value
+      - data:
+          message: Setting a 1-day rain delay -- tomorrow's forecast shows {{ forecast['weather.forecast_home']['forecast'][1]['precipitation']
+            }} in of rain expected.
+          title: 'Rain Bird: Skipping watering'
+        action: notify.mobile_app_msi_ip17pm
+      conditions:
+      - condition: template
+        value_template: '{{ forecast[''weather.forecast_home''][''forecast''][1][''precipitation'']
+          | float(0) >= 0.1 }}'
+  mode: single

@@ -28,3 +28,6 @@ __pycache__/
 # Optional: exclude any generated files you do not want tracked
 # generated/
 # snapshots/
+backups/
+custom_components/
+tts/

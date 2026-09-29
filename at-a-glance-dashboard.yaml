@@ -1,0 +1,41 @@
+title: At a Glance
+views:
+  - title: At a Glance
+    path: at-a-glance
+    icon: mdi:view-dashboard-outline
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: button
+                name: Weather Station
+                icon: mdi:weather-partly-cloudy
+                tap_action:
+                  action: navigate
+                  navigation_path: /weather-station/weather
+              - type: button
+                name: Main Level
+                icon: mdi:home-floor-1
+                tap_action:
+                  action: navigate
+                  navigation_path: /main-level/main-level
+              - type: button
+                name: Basement Theater
+                icon: mdi:movie-open
+                tap_action:
+                  action: navigate
+                  navigation_path: /basement-control/basement
+              - type: button
+                name: Whole Home
+                icon: mdi:home
+                tap_action:
+                  action: navigate
+                  navigation_path: /whole-home/overview
+          - type: iframe
+            url: /local/sports-wallboard.html
+            aspect_ratio: 177.78%
+          - type: iframe
+            url: /local/weather-widget.html?v=3
+            aspect_ratio: 36%

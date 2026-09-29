@@ -1,0 +1,408 @@
+title: Basement Theater
+views:
+  - title: Theater
+    path: basement
+    icon: mdi:movie-open
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Basement Theater
+            heading_style: title
+            icon: mdi:movie-open
+          - type: button
+            name: Main Level
+            icon: mdi:home-floor-1
+            tap_action:
+              action: navigate
+              navigation_path: /main-level/main-level
+          - type: button
+            name: Weather Station
+            icon: mdi:weather-partly-cloudy
+            tap_action:
+              action: navigate
+              navigation_path: /weather-station/weather
+          - type: button
+            name: Whole Home
+            icon: mdi:home
+            tap_action:
+              action: navigate
+              navigation_path: /whole-home/overview
+          - type: button
+            name: Movie
+            icon: mdi:movie-open-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                effect: Movie
+                brightness_pct: 28
+          - type: button
+            name: Game time
+            icon: mdi:football-helmet
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+              data:
+                effect: Game
+                brightness_pct: 55
+          - type: button
+            name: Intermission
+            icon: mdi:food-fork-drink
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                effect: Warm
+                brightness_pct: 72
+          - type: button
+            name: Late night
+            icon: mdi:weather-night
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                effect: Night Light
+                brightness_pct: 12
+                color_temp_kelvin: 2700
+          - type: button
+            name: Rainbow
+            icon: mdi:palette-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+              data:
+                effect: Rainbow
+                brightness_pct: 45
+          - type: button
+            name: Moonlight
+            icon: mdi:moon-waning-crescent
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                effect: Moonlight
+                brightness_pct: 32
+          - type: button
+            name: Soft White 100%
+            icon: mdi:lightbulb-on
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                brightness_pct: 100
+                color_temp_kelvin: 2700
+          - type: button
+            name: Soft White 5%
+            icon: mdi:lightbulb-on-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.under_steps_light
+              data:
+                brightness_pct: 5
+                color_temp_kelvin: 2700
+          - type: button
+            name: All off
+            icon: mdi:lightbulb-off-outline
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.window_area_1
+                  - light.window_area_2
+                  - light.bar_light_4
+                  - light.under_steps_light
+            hold_action:
+              action: call-service
+              service: switch.turn_off
+              target:
+                entity_id: switch.basement_backyard_lights
+      - type: grid
+        cards:
+          - type: heading
+            heading: TV Area Color
+            heading_style: subtitle
+            icon: mdi:television-ambient-light
+          - type: light
+            entity: light.tv_area_light_1
+            name: TV area light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.tv_area_light_2
+            name: TV area light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.tv_area_light_3
+            name: TV area light 3
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.tv_area_light_4
+            name: TV area light 4
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: entities
+            title: TV effects
+            show_header_toggle: false
+            entities:
+              - entity: select.tv_area_light_1_scene
+                name: Light 1 scene
+              - entity: select.tv_area_light_2_scene
+                name: Light 2 scene
+              - entity: select.tv_area_light_3_scene
+                name: Light 3 scene
+              - entity: select.tv_area_light_4_scene
+                name: Light 4 scene
+              - entity: switch.tv_area_light_1_music_mode
+                name: Light 1 music reactive mode
+              - entity: switch.tv_area_light_2_music_mode
+                name: Light 2 music reactive mode
+              - entity: switch.tv_area_light_3_music_mode
+                name: Light 3 music reactive mode
+              - entity: switch.tv_area_light_4_music_mode
+                name: Light 4 music reactive mode
+      - type: grid
+        cards:
+          - type: heading
+            heading: Pendants
+            heading_style: subtitle
+            icon: mdi:ceiling-light-multiple
+          - type: light
+            entity: light.pendant_light_1
+            name: Pendant 1 color and dimmer
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.pendant_light_2
+            name: Pendant 2 color and dimmer
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: entities
+            title: Pendant effects
+            show_header_toggle: false
+            entities:
+              - entity: select.pendant_light_1_scene
+                name: Pendant 1 scene
+              - entity: select.pendant_light_2_scene
+                name: Pendant 2 scene
+              - entity: switch.pendant_light_1_dreamview
+                name: Pendant 1 DreamView
+              - entity: switch.pendant_light_2_dreamview
+                name: Pendant 2 DreamView
+      - type: grid
+        cards:
+          - type: heading
+            heading: Bar and Steps
+            heading_style: subtitle
+            icon: mdi:glass-cocktail
+          - type: light
+            entity: light.bar_light_1
+            name: Bar light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.bar_light_2
+            name: Bar light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.bar_light_3
+            name: Bar light 3
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.bar_light_4
+            name: Bar light 4
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.window_area_1
+            name: Bar window light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.window_area_2
+            name: Bar window light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: entities
+            title: Bar scenes
+            show_header_toggle: false
+            entities:
+              - entity: select.bar_light_1_scene
+                name: Bar light 1 scene
+              - entity: select.bar_light_2_scene
+                name: Bar light 2 scene
+              - entity: select.bar_light_3_scene
+                name: Bar light 3 scene
+              - entity: select.bar_light_4_scene
+                name: Bar light 4 scene
+              - entity: select.window_area_1_scene
+                name: Window light 1 scene
+              - entity: select.window_area_2_scene
+                name: Window light 2 scene
+              - entity: switch.bar_light_1_music_mode
+                name: Bar light 1 music mode
+              - entity: switch.bar_light_2_music_mode
+                name: Bar light 2 music mode
+              - entity: switch.bar_light_3_music_mode
+                name: Bar light 3 music mode
+              - entity: switch.bar_light_4_music_mode
+                name: Bar light 4 music mode
+              - entity: switch.window_area_1_music_mode
+                name: Window light 1 music mode
+              - entity: switch.window_area_2_music_mode
+                name: Window light 2 music mode
+          - type: tile
+            entity: light.under_steps_light
+            name: Under steps
+            features:
+              - type: light-brightness
+          - type: tile
+            entity: switch.basement_backyard_lights
+            name: Backyard lights

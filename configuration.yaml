@@ -1,40 +1,63 @@
-# Home Assistant configuration entrypoint
-# This file intentionally stays lean and delegates most logic to smaller YAML files.
 
-homeassistant:
-  name: Home
-  unit_system: imperial
-  time_zone: America/Chicago
-  customize: !include customize.yaml
-
-# Load the default integrations and standard HA behavior
+# Loads default set of integrations. Do not remove.
 default_config:
 
-# Example: include packages by folder
-# Files in packages/ can be broken into logical groups like network, climate, lighting, etc.
-# package: !include_dir_named packages
+homeassistant:
+  packages: !include_dir_named packages
 
-# Include standard YAML files
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-group: !include groups.yaml
-
-# Text-to-speech
-tts:
-  - platform: google_translate
-
-# Frontend config example
+# Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
 
-# Example for logging to file if you want local logs
-logger:
-  default: info
-  logs:
-    homeassistant.components.websocket_api: warning
+lovelace:
+  dashboards:
+    at-a-glance:
+      mode: yaml
+      filename: at-a-glance-dashboard.yaml
+      title: At a Glance
+      icon: mdi:view-dashboard-outline
+      show_in_sidebar: true
+    weather-station:
+      mode: yaml
+      filename: weather-station-dashboard.yaml
+      title: Weather Station
+      icon: mdi:weather-partly-cloudy
+      show_in_sidebar: true
+    basement-control:
+      mode: yaml
+      filename: basement-ipad-dashboard.yaml
+      title: Basement Control
+      icon: mdi:home-floor-b
+      show_in_sidebar: true
+    main-level:
+      mode: yaml
+      filename: main-level-dashboard.yaml
+      title: Main Level
+      icon: mdi:home-floor-1
+      show_in_sidebar: true
+    whole-home:
+      mode: yaml
+      filename: whole-home-dashboard.yaml
+      title: Whole Home
+      icon: mdi:home
+      show_in_sidebar: true
+    security-cameras:
+      mode: yaml
+      filename: blink-cameras-dashboard.yaml
+      title: Cameras
+      icon: mdi:cctv
+      show_in_sidebar: true
 
-# Add other config as needed below.
-# Example:
-# light: !include lights.yaml
-# climate: !include climate.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+# Keep the database lean: ESPN REST payloads are large JSON blobs that the
+# recorder cannot store anyway; dashboards read live data in the browser.
+recorder:
+  exclude:
+    entity_globs:
+      - sensor.espn_*
+
+shell_command:
+  sync_backups_to_onedrive: >-
+    /bin/sh -c 'mkdir -p /onedrive_backups && cp -f /backup/* /onedrive_backups/ 2>/dev/null || true; cp -f /config/backups/* /onedrive_backups/ 2>/dev/null || true; ls -1t /onedrive_backups/* 2>/dev/null | tail -n +31 | xargs -r rm -f'

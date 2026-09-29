@@ -1,0 +1,219 @@
+title: Whole Home
+views:
+  - title: Overview
+    path: overview
+    icon: mdi:home
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Whole Home
+            heading_style: title
+            icon: mdi:home
+          - type: tile
+            entity: person.peter_larsen
+            name: Home presence
+          - type: tile
+            entity: alarm_control_panel.blink_5218_boulder_dr
+            name: Blink security
+          - type: button
+            name: Cameras
+            icon: mdi:cctv
+            tap_action:
+              action: navigate
+              navigation_path: /security-cameras/cameras
+          - type: button
+            name: Main Level Warm 100%
+            icon: mdi:lightbulb-on
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id: light.main_level_all
+              data:
+                brightness_pct: 100
+                color_temp_kelvin: 2700
+          - type: button
+            name: Basement Soft White
+            icon: mdi:movie-open
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id: light.basement_all
+              data:
+                brightness_pct: 100
+                color_temp_kelvin: 2700
+          - type: button
+            name: All lights off
+            icon: mdi:lightbulb-off-outline
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              target:
+                entity_id:
+                  - light.main_level_all
+                  - light.basement_all
+      - type: grid
+        cards:
+          - type: heading
+            heading: Main Level
+            heading_style: subtitle
+            icon: mdi:home-floor-1
+          - type: tile
+            entity: light.main_level_all
+            name: Main Level lights
+            features:
+              - type: light-brightness
+          - type: button
+            name: Main Level dashboard
+            icon: mdi:open-in-new
+            tap_action:
+              action: navigate
+              navigation_path: /main-level/main-level
+      - type: grid
+        cards:
+          - type: heading
+            heading: Basement Theater
+            heading_style: subtitle
+            icon: mdi:movie-open
+          - type: tile
+            entity: light.basement_all
+            name: Basement lights
+            features:
+              - type: light-brightness
+          - type: button
+            name: Basement dashboard
+            icon: mdi:open-in-new
+            tap_action:
+              action: navigate
+              navigation_path: /basement-control/basement
+      - type: grid
+        cards:
+          - type: heading
+            heading: Weather
+            heading_style: subtitle
+            icon: mdi:weather-partly-cloudy
+          - type: tile
+            entity: sensor.openweathermap_condition
+            name: Conditions
+          - type: tile
+            entity: sensor.openweathermap_temperature
+            name: Temperature
+          - type: tile
+            entity: sensor.openweathermap_humidity
+            name: Humidity
+          - type: tile
+            entity: sensor.sun_next_setting
+            name: Sunset
+          - type: button
+            name: Weather Station
+            icon: mdi:weather-partly-cloudy
+            tap_action:
+              action: navigate
+              navigation_path: /weather-station/weather
+      - type: grid
+        cards:
+          - type: heading
+            heading: Tasks
+            heading_style: subtitle
+            icon: mdi:clipboard-check-outline
+          - type: todo-list
+            entity: todo.pete_thelarsens_us_to_do_list
+            title: To-do list
+          - type: todo-list
+            entity: todo.pete_thelarsens_us_shopping_list
+            title: Shopping list
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: At a Glance
+            heading_style: subtitle
+            icon: mdi:football
+          - type: iframe
+            url: /local/sports-wallboard.html
+            aspect_ratio: 177.78%
+      - type: grid
+        cards:
+          - type: heading
+            heading: Home Services
+            heading_style: subtitle
+            icon: mdi:server-network
+          - type: tile
+            entity: sensor.backup_backup_manager_state
+            name: Backup state
+          - type: tile
+            entity: sensor.backup_last_successful_automatic_backup
+            name: Last backup
+          - type: tile
+            entity: sensor.govee_integration_mqtt_status
+            name: Govee MQTT
+          - type: tile
+            entity: sensor.onedrive_drive_state
+            name: OneDrive
+      - type: grid
+        column_span: 3
+        cards:
+          - type: heading
+            heading: Cameras
+            heading_style: subtitle
+            icon: mdi:cctv
+          - type: picture-glance
+            camera_image: camera.front_door_voice
+            camera_view: live
+            entities:
+              - binary_sensor.front_door_voice_motion
+              - binary_sensor.front_door_voice_camera_armed
+          - type: picture-glance
+            camera_image: camera.driveway_voice
+            camera_view: live
+            entities:
+              - binary_sensor.driveway_voice_motion
+              - binary_sensor.driveway_voice_camera_armed
+          - type: picture-glance
+            camera_image: camera.garage
+            camera_view: live
+            entities:
+              - binary_sensor.garage_motion
+              - binary_sensor.garage_camera_armed
+          - type: picture-glance
+            camera_image: camera.basment_door
+            camera_view: live
+            entities:
+              - binary_sensor.basment_door_motion
+              - binary_sensor.basment_door_camera_armed
+          - type: button
+            name: All cameras and controls
+            icon: mdi:open-in-new
+            tap_action:
+              action: navigate
+              navigation_path: /security-cameras/cameras
+          - type: heading
+            heading: Camera Activity
+            heading_style: subtitle
+            icon: mdi:motion-sensor
+          - type: entity-filter
+            entities:
+              - binary_sensor.front_door_voice_motion
+              - binary_sensor.driveway_voice_motion
+              - binary_sensor.garage_motion
+              - binary_sensor.basment_door_motion
+              - binary_sensor.kitchen_inside_motion
+              - binary_sensor.bonus_room_motion
+              - binary_sensor.old_cam_1_motion
+            state_filter:
+              - 'on'
+            card:
+              type: entities
+              title: Active motion
+              show_header_toggle: false
+          - type: button
+            name: Open Cameras
+            icon: mdi:cctv
+            tap_action:
+              action: navigate
+              navigation_path: /security-cameras/cameras
