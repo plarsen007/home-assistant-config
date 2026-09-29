@@ -1,0 +1,141 @@
+light:
+  - platform: group
+    name: Main Level All
+    unique_id: main_level_all_lights
+    entities:
+      - light.kitchen_kitchen_light_1
+      - light.kitchen_kitchen_light_2
+      - light.kitchen_kitchen_light_3
+      - light.kitchen_kitchen_light_4
+      - light.unassigned_kitchen_island_lights
+      - light.living_room_left_light_1
+      - light.living_room_left_light_3
+      - light.living_room_right_light_2
+      - light.living_room_right_light_4
+      - light.living_room_left_fireplace_light
+      - light.living_room_right_fireplace_light
+      - light.living_room_banister_lights
+      - light.living_room_entryway_bulb_1
+      - light.living_room_entryway_bulb_2
+      - light.living_room_entryway_bulb_3
+      - light.living_room_hallway_light_1
+      - light.living_room_hallway_light_2
+      - light.living_room_hallway_light_3
+  - platform: group
+    name: Basement All
+    unique_id: basement_all_lights
+    entities:
+      - light.tv_area_light_1
+      - light.tv_area_light_2
+      - light.tv_area_light_3
+      - light.tv_area_light_4
+      - light.pendant_light_1
+      - light.pendant_light_2
+      - light.bar_light_1
+      - light.bar_light_2
+      - light.bar_light_3
+      - light.bar_light_4
+      - light.window_area_1
+      - light.window_area_2
+      - light.under_steps_light
+
+automation:
+  - id: presence_lighting_sunset
+    alias: Presence Lighting - Main Level At Sunset
+    description: Set a warm, comfortable main-level light level when someone is home at sunset.
+    trigger:
+      - platform: sun
+        event: sunset
+    condition:
+      - condition: state
+        entity_id: person.peter_larsen
+        state: home
+    action:
+      - action: light.turn_on
+        target:
+          entity_id: light.main_level_all
+        data:
+          brightness_pct: 35
+      - action: light.turn_on
+        target:
+          entity_id:
+            - light.kitchen_kitchen_light_1
+            - light.kitchen_kitchen_light_2
+            - light.kitchen_kitchen_light_3
+            - light.kitchen_kitchen_light_4
+            - light.living_room_left_light_1
+            - light.living_room_left_light_3
+            - light.living_room_right_light_2
+            - light.living_room_right_light_4
+            - light.living_room_left_fireplace_light
+            - light.living_room_right_fireplace_light
+            - light.living_room_entryway_bulb_1
+            - light.living_room_entryway_bulb_2
+            - light.living_room_entryway_bulb_3
+            - light.living_room_hallway_light_1
+            - light.living_room_hallway_light_2
+            - light.living_room_hallway_light_3
+        data:
+          color_temp_kelvin: 2700
+    mode: single
+  - id: presence_lighting_arrival
+    alias: Presence Lighting - Arrival After Dark
+    description: Light the entry and hallway when someone arrives home after dark.
+    trigger:
+      - platform: state
+        entity_id: person.peter_larsen
+        from: not_home
+        to: home
+    condition:
+      - condition: sun
+        after: sunset
+        before: sunrise
+    action:
+      - action: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_entryway_bulb_1
+            - light.living_room_entryway_bulb_2
+            - light.living_room_entryway_bulb_3
+            - light.living_room_hallway_light_1
+            - light.living_room_hallway_light_2
+            - light.living_room_hallway_light_3
+        data:
+          brightness_pct: 55
+          color_temp_kelvin: 2700
+      - action: light.turn_on
+        target:
+          entity_id: light.living_room_banister_lights
+        data:
+          brightness_pct: 35
+    mode: restart
+  - id: garage_lights_at_sunset
+    alias: Garage Lights - On At Sunset
+    description: Turn on both garage lights at sunset.
+    trigger:
+      - platform: sun
+        event: sunset
+    condition: []
+    action:
+      - action: light.turn_on
+        target:
+          entity_id:
+            - light.front_porch_garage_light_1
+            - light.front_porch_garage_light_2
+        data:
+          color_temp_kelvin: 2700
+    mode: single
+  - id: garage_lights_off_at_10pm
+    alias: Garage Lights - Off At 10 PM
+    description: Turn off both garage lights promptly at 10 PM.
+    trigger:
+      - platform: time
+        at: "22:00:00"
+    condition: []
+    action:
+      - action: light.turn_off
+        target:
+          entity_id:
+            - light.front_porch_garage_light_1
+            - light.front_porch_garage_light_2
+    mode: single

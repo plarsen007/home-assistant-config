@@ -1,0 +1,372 @@
+# Home Assistant intercom package
+# Place in config/packages/ with packages include enabled in configuration.yaml
+
+script:
+  # Core announce script for either Assist satellites or media players
+  intercom_announce:
+    alias: "Intercom - Announce to Room"
+    description: >
+      Send a spoken announcement to a specific room. Use this when asked to
+      announce, broadcast, or tell a room something. Target can be either an
+      assist satellite or a media player.
+    fields:
+      announce_target:
+        description: "Target entity, e.g. assist_satellite.basement_theater or media_player.living_room"
+        required: true
+        selector:
+          entity:
+            domain:
+              - assist_satellite
+              - media_player
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+      volume_level:
+        description: "Optional Echo volume for announcement (0.0-1.0)"
+        required: false
+        default: 1.0
+        selector:
+          number:
+            min: 0
+            max: 1
+            step: 0.05
+            mode: slider
+    sequence:
+      - variables:
+          resolved_target: "{{ announce_target if announce_target is defined else target }}"
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ resolved_target is string and resolved_target.startswith('assist_satellite.') }}"
+            sequence:
+              - action: assist_satellite.announce
+                target:
+                  entity_id: "{{ resolved_target }}"
+                data:
+                  message: "{{ message }}"
+        default:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ resolved_target in ['media_player.living_room', 'media_player.den'] }}"
+                sequence:
+                  - action: media_player.volume_set
+                    target:
+                      entity_id: "{{ resolved_target }}"
+                    data:
+                      volume_level: "{{ volume_level if volume_level is defined else 1.0 }}"
+                  - delay: "00:00:01"
+                  - variables:
+                      alexa_device_id: >-
+                        {% if resolved_target == 'media_player.living_room' %}
+                          a3e1cee55c2ae84dda48d204581e696a
+                        {% elif resolved_target == 'media_player.den' %}
+                          08ddc4bb81168fd536b395aad8ec9599
+                        {% else %}
+                          
+                        {% endif %}
+                  - action: alexa_devices.send_text_command
+                    data:
+                      device_id: "{{ alexa_device_id | trim }}"
+                      text_command: "announce {{ message }}"
+              - conditions:
+                  - condition: template
+                    value_template: "{{ resolved_target == 'media_player.everywhere' }}"
+                sequence:
+                  - action: media_player.play_media
+                    target:
+                      entity_id: media_player.everywhere
+                    data:
+                      media_content_type: announce
+                      media_content_id: "{{ message }}"
+            default:
+              - action: tts.speak
+                target:
+                  entity_id: tts.piper
+                data:
+                  media_player_entity_id: "{{ resolved_target }}"
+                  message: "{{ message }}"
+
+  intercom_living_room:
+    alias: "Intercom - Living Room"
+    description: "Speak a message to the Living Room Echo."
+    fields:
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+    sequence:
+      - action: script.intercom_announce
+        data:
+          announce_target: media_player.living_room
+          message: "{{ message }}"
+
+  intercom_den:
+    alias: "Intercom - Den"
+    description: "Speak a message to the Den Echo."
+    fields:
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+    sequence:
+      - action: script.intercom_announce
+        data:
+          announce_target: media_player.den
+          message: "{{ message }}"
+
+  intercom_everywhere:
+    alias: "Intercom - Everywhere"
+    description: "Speak a message to the Alexa Everywhere group."
+    fields:
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+    sequence:
+      - action: script.intercom_announce
+        data:
+          announce_target: media_player.everywhere
+          message: "{{ message }}"
+
+  # Fallback for rooms with media players (Echo, Sonos, etc.)
+  intercom_announce_media:
+    alias: "Intercom - Announce via Media Player"
+    description: >
+      Speak an announcement through a media player using TTS. Use for rooms
+      without an Assist satellite.
+    fields:
+      target:
+        description: "Media player entity, e.g. media_player.living_room"
+        required: true
+        selector:
+          entity:
+            domain: media_player
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+      volume_level:
+        description: "Optional Echo volume for announcement (0.0-1.0)"
+        required: false
+        default: 1.0
+        selector:
+          number:
+            min: 0
+            max: 1
+            step: 0.05
+            mode: slider
+    sequence:
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ target in ['media_player.living_room', 'media_player.den'] }}"
+            sequence:
+              - action: media_player.volume_set
+                target:
+                  entity_id: "{{ target }}"
+                data:
+                  volume_level: "{{ volume_level if volume_level is defined else 1.0 }}"
+              - delay: "00:00:01"
+              - variables:
+                  alexa_device_id: >-
+                    {% if target == 'media_player.living_room' %}
+                      a3e1cee55c2ae84dda48d204581e696a
+                    {% elif target == 'media_player.den' %}
+                      08ddc4bb81168fd536b395aad8ec9599
+                    {% else %}
+                      
+                    {% endif %}
+              - action: alexa_devices.send_text_command
+                data:
+                  device_id: "{{ alexa_device_id | trim }}"
+                  text_command: "announce {{ message }}"
+          - conditions:
+              - condition: template
+                value_template: "{{ target == 'media_player.everywhere' }}"
+            sequence:
+              - action: media_player.play_media
+                target:
+                  entity_id: media_player.everywhere
+                data:
+                  media_content_type: announce
+                  media_content_id: "{{ message }}"
+        default:
+          - action: tts.speak
+            target:
+              entity_id: tts.piper
+            data:
+              media_player_entity_id: "{{ target }}"
+              message: "{{ message }}"
+
+  # Whole-house broadcast to selected endpoints
+  intercom_broadcast:
+    alias: "Intercom - Broadcast"
+    description: "Announce a message to one or more satellites/media players."
+    fields:
+      targets:
+        description: "One or more target entities (for example, your two Echos)"
+        required: true
+        selector:
+          entity:
+            multiple: true
+            domain:
+              - assist_satellite
+              - media_player
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+    sequence:
+      - repeat:
+          for_each: "{{ targets }}"
+          sequence:
+            - choose:
+                - conditions:
+                    - condition: template
+                      value_template: "{{ repeat.item is string and repeat.item.startswith('assist_satellite.') }}"
+                  sequence:
+                    - action: assist_satellite.announce
+                      target:
+                        entity_id: "{{ repeat.item }}"
+                      data:
+                        message: "{{ message }}"
+              default:
+                - action: tts.speak
+                  target:
+                    entity_id: tts.piper
+                  data:
+                    media_player_entity_id: "{{ repeat.item }}"
+                    message: "{{ message }}"
+
+  # Quick broadcast to your two current Echo endpoints
+  intercom_broadcast_echos:
+    alias: "Intercom - Broadcast to Echos"
+    description: "Announce a message to both configured Echo media players."
+    fields:
+      message:
+        description: "The message to speak"
+        required: true
+        selector:
+          text:
+      volume_level:
+        description: "Optional Echo volume for announcement (0.0-1.0)"
+        required: false
+        default: 1.0
+        selector:
+          number:
+            min: 0
+            max: 1
+            step: 0.05
+            mode: slider
+    sequence:
+      - action: media_player.volume_set
+        target:
+          entity_id:
+            - media_player.living_room
+            - media_player.den
+        data:
+          volume_level: "{{ volume_level if volume_level is defined else 1.0 }}"
+      - delay: "00:00:01"
+      - repeat:
+          for_each:
+            - a3e1cee55c2ae84dda48d204581e696a
+            - 08ddc4bb81168fd536b395aad8ec9599
+          sequence:
+            - action: alexa_devices.send_text_command
+              data:
+                device_id: "{{ repeat.item }}"
+                text_command: "announce {{ message }}"
+            - delay: "00:00:01"
+
+  # Walkie-talkie style exchange: announce then listen for reply
+  intercom_ask:
+    alias: "Intercom - Ask and Listen"
+    description: >
+      Speak a message in a room and open the mic for a reply. Walkie-talkie
+      style two-way exchange.
+    fields:
+      target:
+        description: "Target satellite entity"
+        required: true
+        selector:
+          entity:
+            domain: assist_satellite
+      message:
+        description: "The opening message"
+        required: true
+        selector:
+          text:
+    sequence:
+      - action: assist_satellite.start_conversation
+        target:
+          entity_id: "{{ target }}"
+        data:
+          start_message: "{{ message }}"
+
+automation:
+  - id: intercom_dinner_button
+    alias: "Intercom - Dinner Announcement"
+    triggers:
+      - trigger: state
+        entity_id: input_button.dinner_time
+    actions:
+      - action: script.intercom_announce
+        data:
+          announce_target: media_player.living_room
+          message: "Dinner is ready. Pause the movie and come upstairs."
+
+  - id: intercom_assist_house_broadcast
+    alias: "Intercom - Assist House Broadcast"
+    description: "Catch simple Assist phrases and broadcast to both Echos."
+    triggers:
+      - trigger: conversation
+        command:
+          - "housecast {message}"
+    actions:
+      - action: script.intercom_broadcast_echos
+        data:
+          message: "{{ trigger.slots.message }}"
+
+input_button:
+  dinner_time:
+    name: "Dinner Time"
+    icon: mdi:silverware-fork-knife
+
+intent_script:
+  IntercomBroadcastIntent:
+    speech:
+      text: "Broadcasting now."
+    action:
+      - variables:
+          msg: "{{ message if message is defined else (slots.message if slots is defined else '') }}"
+      - action: script.intercom_broadcast_echos
+        data:
+          message: "{{ msg | trim if (msg | trim) else 'Attention everyone. Please check in.' }}"
+
+  IntercomLivingRoomIntent:
+    speech:
+      text: "Sending to living room."
+    action:
+      - variables:
+          msg: "{{ message if message is defined else (slots.message if slots is defined else '') }}"
+      - action: script.intercom_living_room
+        data:
+          message: "{{ msg | trim if (msg | trim) else 'Please check in.' }}"
+
+  IntercomDenIntent:
+    speech:
+      text: "Sending to den."
+    action:
+      - variables:
+          msg: "{{ message if message is defined else (slots.message if slots is defined else '') }}"
+      - action: script.intercom_den
+        data:
+          message: "{{ msg | trim if (msg | trim) else 'Please check in.' }}"
