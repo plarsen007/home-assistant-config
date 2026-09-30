@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Sync & Deploy",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "git -C \"${workspaceFolder}\" pull && rsync -av --delete --exclude='.git' --exclude='secrets.yaml' --exclude='.secrets.yaml' --exclude='*.db*' --exclude='home-assistant.log*' --exclude='.storage' --exclude='.cloud' --exclude='.cache' --exclude='.DS_Store' --exclude='tts' --exclude='deps' --exclude='blueprints' --exclude='.ha_run.lock' --exclude='.HA_VERSION' --exclude='custom_components' \"${workspaceFolder}/\" /Volumes/homeassistant/"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
