@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minnesota Sports Station</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f4f0e7;
+      --muted: #aeb5b8;
+      --line: rgba(255,255,255,.14);
+      --panel: rgba(12, 20, 27, .76);
+      --accent: #e7b86d;
+      --accent-cool: #8db9c8;
+      --bg-a: #203542;
+      --bg-b: #0a1118;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+      background: radial-gradient(circle at 18% 0%, rgba(141,185,200,.28), transparent 32rem), linear-gradient(135deg, var(--bg-a), var(--bg-b) 70%);
+    }
+    body:before { content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .16; background: repeating-linear-gradient(115deg, transparent 0 11px, rgba(255,255,255,.03) 12px 13px); }
+    main { position: relative; max-width: 1360px; min-height: 100vh; margin: auto; padding: 30px 42px 38px; display: grid; gap: 24px; }
+    header { display: flex; justify-content: space-between; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 17px; }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); font: 700 13px/1.1 Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(36px, 5vw, 70px); line-height: .95; font-weight: 400; }
+    .stamp { color: var(--muted); font: 700 14px/1.4 Arial, sans-serif; text-align: right; }
+    .links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .links a { color: var(--ink); text-decoration: none; border: 1px solid var(--line); padding: 9px 12px; background: rgba(0,0,0,.18); font: 700 12px Arial, sans-serif; }
+    .links a:hover { border-color: var(--accent); color: var(--accent); }
+    .hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 24px; align-items: stretch; }
+    .next, .news, .team { border: 1px solid var(--line); background: var(--panel); }
+    .next { min-height: 230px; padding: 28px; display: flex; flex-direction: column; justify-content: center; }
+    .label { color: var(--accent); font: 700 12px Arial, sans-serif; letter-spacing: 1.5px; text-transform: uppercase; }
+    .next h2 { margin: 13px 0 8px; font-size: clamp(28px, 4vw, 52px); font-weight: 400; line-height: 1; }
+    .next .meta { color: var(--muted); font: 16px/1.5 Arial, sans-serif; }
+    .next .line { margin-top: 20px; color: var(--accent-cool); font: 700 14px Arial, sans-serif; }
+    .news { padding: 22px 24px; }
+    .news h2, .section-title { margin: 0 0 14px; font: 700 14px Arial, sans-serif; letter-spacing: 1.4px; text-transform: uppercase; color: var(--accent); }
+    .news a { display: block; color: var(--ink); text-decoration: none; padding: 11px 0; border-top: 1px solid var(--line); font-size: 17px; line-height: 1.25; }
+    .news a:hover { color: var(--accent); }
+    .news small { display: block; margin-top: 4px; color: var(--muted); font: 12px Arial, sans-serif; }
+    .teams { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .team { min-height: 190px; padding: 18px; border-top: 3px solid var(--team-color); }
+    .team-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .team h3 { margin: 0; font-size: 25px; font-weight: 400; }
+    .team .sport { color: var(--muted); font: 11px Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+    .game { margin-top: 18px; font: 14px/1.45 Arial, sans-serif; }
+    .game strong { color: var(--accent); font-size: 15px; }
+    .game .matchup { margin-top: 5px; color: var(--ink); }
+    .game .odds { margin-top: 8px; color: var(--accent-cool); font-size: 12px; }
+    .empty { margin-top: 22px; color: var(--muted); font: 14px/1.45 Arial, sans-serif; }
+    .footer { color: var(--muted); font: 12px Arial, sans-serif; }
+    @media (max-width: 900px) { main { padding: 24px; } .hero { grid-template-columns: 1fr; } .teams { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { header { align-items: start; gap: 15px; flex-direction: column; } .stamp { text-align: left; } .teams { grid-template-columns: 1fr; } .next { min-height: 200px; padding: 22px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div><p class="eyebrow">Minnesota sports station</p><h1>At a Glance</h1></div>
+      <div class="stamp" id="updated">Loading scores...</div>
+    </header>
+    <nav class="links" aria-label="Home Assistant dashboards">
+      <a href="/local/weather-wallboard.html">Weather Station</a>
+      <a href="/whole-home/overview">Whole Home</a>
+      <a href="/main-level/main-level">Main Level</a>
+      <a href="/basement-control/basement">Basement Theater</a>
+    </nav>
+    <section class="hero">
+      <article class="next" id="next-game"><div class="label">Next Minnesota game</div><h2>Loading the schedule</h2><div class="meta">Checking ESPN...</div></article>
+      <article class="news"><h2>Minnesota now</h2><div id="local-news">Loading local headlines...</div></article>
+    </section>
+    <section>
+      <h2 class="section-title">Team boards</h2>
+      <div class="teams" id="teams"></div>
+    </section>
+    <div class="footer">Times shown in Central Time. Betting lines are displayed only when ESPN supplies them. Updated every 15 minutes.</div>
+  </main>
+  <script>
+    const teams = [
+      { name: 'Vikings', sport: 'NFL', color: '#4f8a68', score: 'football/nfl', news: 'football/nfl/news?team=16' },
+      { name: 'Twins', sport: 'MLB', color: '#d65b59', score: 'baseball/mlb', news: 'baseball/mlb/news?team=min' },
+      { name: 'Timberwolves', sport: 'NBA', color: '#70a6c2', score: 'basketball/nba', news: 'basketball/nba/news?team=min' },
+      { name: 'Wild', sport: 'NHL', color: '#6fae87', score: 'hockey/nhl', news: 'hockey/nhl/news?team=min' }
+    ];
+    const api = path => `https://site.web.api.espn.com/apis/site/v2/sports/${path}`;
+    const central = iso => new Date(iso).toLocaleString('en-US', { timeZone: 'America/Chicago', weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    const stateLabel = game => game.status.type.state === 'post' ? 'FINAL' : game.status.type.state === 'in' ? 'LIVE' : central(game.date) + ' CT';
+    const value = (object, path, fallback = '') => path.reduce((item, key) => item && item[key], object) ?? fallback;
+    const teamNames = game => game.competitions[0].competitors.map(item => `${item.team.abbreviation} ${item.score ?? '-'}`).join('  |  ');
+    const odds = game => { const item = value(game, ['competitions', 0, 'odds', 0], null); return item?.details ? `Favorite / line: ${item.details}` : 'Favorite / line: unavailable'; };
+    async function getScores(team) { const data = await fetch(api(`${team.score}/scoreboard`)).then(response => response.json()); return (data.events || []).filter(game => game.competitions[0].competitors.some(item => item.team.abbreviation === 'MIN')); }
+    async function getNews(team) { const data = await fetch(api(team.news)).then(response => response.json()); return data.articles || []; }
+    async function getLocalNews() {
+      const feeds = [
+        { source: 'MPR News', url: 'https://www.mprnews.org/feed/homepage' },
+        { source: 'FOX 9', url: 'https://www.fox9.com/rss/category/local-news' },
+        { source: 'KSTP', url: 'https://kstp.com/feed/' }
+      ];
+      const items = await Promise.all(feeds.map(async feed => {
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`);
+        const data = await response.json();
+        return (data.items || []).slice(0, 2).map(item => ({ ...item, source: feed.source }));
+      }));
+      return items.flat().sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0)).slice(0, 5);
+    }
+    function renderTeam(team, games) {
+      const card = document.createElement('article'); card.className = 'team'; card.style.setProperty('--team-color', team.color);
+      const game = games[0];
+      card.innerHTML = `<div class="team-head"><h3>${team.name}</h3><span class="sport">${team.sport}</span></div>`;
+      if (!game) { card.innerHTML += '<div class="empty">No scheduled game in the current ESPN window.</div>'; return card; }
+      card.innerHTML += `<div class="game"><strong>${stateLabel(game)}</strong><div class="matchup">${teamNames(game)}<br>${game.name}</div><div class="odds">${odds(game)}</div></div>`;
+      return card;
+    }
+    async function load() {
+      try {
+        const results = await Promise.all(teams.map(async team => ({ team, games: await getScores(team), articles: await getNews(team) })));
+        let local = [];
+        try { local = await getLocalNews(); } catch (error) { local = []; }
+        const games = results.flatMap(result => result.games.map(game => ({ game, team: result.team }))).sort((a, b) => new Date(a.game.date) - new Date(b.game.date));
+        const next = games.find(item => item.game.status.type.state !== 'post') || games[0];
+        const hero = document.querySelector('#next-game');
+        if (next) { hero.innerHTML = `<div class="label">Next Minnesota game · ${next.team.name}</div><h2>${next.game.name}</h2><div class="meta">${stateLabel(next.game)}<br>${teamNames(next.game)}</div><div class="line">${odds(next.game)}</div>`; }
+        else { hero.innerHTML = '<div class="label">Next Minnesota game</div><h2>No games in the current window</h2><div class="meta">The schedule will refresh automatically.</div>'; }
+        document.querySelector('#teams').replaceChildren(...results.map(result => renderTeam(result.team, result.games)));
+        const headlines = results.flatMap(result => result.articles.slice(0, 1).map(article => ({ team: result.team.name, article })));
+        const localMarkup = local.length ? `<div class="label" style="margin-bottom:4px">Local news</div>${local.map(item => `<a href="${item.link}" target="_blank" rel="noreferrer">${item.title}<small>${item.source}</small></a>`).join('')}` : '<div class="empty">Local news is unavailable right now.</div>';
+        const teamMarkup = headlines.length ? `<div class="label" style="margin:16px 0 4px">Team news</div>${headlines.map(item => `<a href="${value(item.article, ['links', 'web', 'href'], '#')}" target="_blank" rel="noreferrer">${item.article.headline}<small>${item.team} · ESPN</small></a>`).join('')}` : '';
+        document.querySelector('#local-news').innerHTML = localMarkup + teamMarkup;
+        document.querySelector('#updated').textContent = `Chaska, Minnesota · Updated ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+      } catch (error) { document.querySelector('#updated').textContent = 'Sports service unavailable'; document.querySelector('#next-game').innerHTML = '<div class="label">Minnesota sports</div><h2>Scores are taking a breather.</h2><div class="meta">Refresh the wallboard to try again.</div>'; }
+    }
+    load(); setInterval(load, 900000);
+  </script>
+</body>
+</html>

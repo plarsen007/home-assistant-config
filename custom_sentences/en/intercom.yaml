@@ -1,0 +1,24 @@
+language: "en"
+intents:
+  IntercomBroadcastIntent:
+    data:
+      - sentences:
+          - "housecast {message}"
+          - "broadcast {message} through the house"
+          - "announce {message} through the house"
+          - "announce {message} to the house"
+          - "announce {message} everywhere"
+
+  IntercomLivingRoomIntent:
+    data:
+      - sentences:
+          - "announce {message} to living room"
+          - "tell living room {message}"
+          - "living room announcement {message}"
+
+  IntercomDenIntent:
+    data:
+      - sentences:
+          - "announce {message} to den"
+          - "tell den {message}"
+          - "den announcement {message}"

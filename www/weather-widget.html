@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seven Day Forecast</title>
+  <style>
+    :root { color-scheme: dark; --ink:#f4f0e7; --muted:#aeb5b8; --line:rgba(255,255,255,.14); --panel:rgba(12,20,27,.78); --accent:#e7b86d; --cool:#8db9c8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); font-family:Arial,sans-serif; background:linear-gradient(135deg,#203542,#0a1118 72%); }
+    main { padding:18px 24px 20px; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:15px; }
+    .place { color:var(--accent); font:700 12px Arial,sans-serif; letter-spacing:1.5px; text-transform:uppercase; }
+    .current { display:flex; align-items:baseline; gap:12px; }
+    .temp { font:400 42px Georgia,serif; }
+    .condition { color:var(--muted); font-size:14px; }
+    .updated { color:var(--muted); font-size:12px; line-height:1.5; text-align:right; }
+    .sun { color:var(--cool); white-space:nowrap; }
+    .forecast { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; }
+    .day { min-width:0; padding:11px 7px; border:1px solid var(--line); border-top:2px solid var(--accent); background:var(--panel); }
+    .name { font-weight:700; font-size:13px; }
+    .date { margin-top:3px; color:var(--muted); font-size:11px; }
+    .mark { margin:10px 0 8px; color:var(--accent); font:24px Georgia,serif; }
+    .desc { min-height:30px; color:var(--muted); font-size:11px; line-height:1.25; }
+    .temps { margin-top:8px; font-size:17px; white-space:nowrap; }
+    .low { color:var(--muted); font-size:14px; }
+    .rain { margin-top:8px; color:var(--cool); font-size:11px; line-height:1.35; }
+    .error { color:#ffb4a8; font-size:14px; }
+    @media(max-width:700px) { main{padding:14px 12px}.top{align-items:flex-start;flex-direction:column;gap:6px}.updated{text-align:left}.forecast{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.day{padding:10px 4px;min-height:145px}.name{font-size:11px}.date,.desc,.rain{font-size:9px}.temps{font-size:14px}.low{font-size:12px}.mark{font-size:19px} }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top"><div><div class="place">Chaska, Minnesota · 7 day forecast</div><div class="current"><span class="temp" id="temp">--</span><span class="condition" id="condition">Loading forecast...</span></div></div><div class="updated"><div id="updated">Weather Station</div><div class="sun" id="sun">Sunrise -- · Sunset --</div></div></div>
+    <section class="forecast" id="forecast"></section>
+  </main>
+  <script>
+    const condition=code=>({0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Freezing fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Rain showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorms',96:'Storms',99:'Storms'})[code]||'Forecast';
+    const icon=code=>code>=95?'⚡':code>=71?'***':code>=51?'•••':code>=1?'☁':'☼';
+    const dayName=(date,index)=>index===0?'Today':new Date(`${date}T12:00:00`).toLocaleDateString('en-US',{weekday:'short'});
+    const fetchJson=async url=>{const response=await fetch(url,{headers:{'User-Agent':'HomeAssistant'}});if(!response.ok)throw new Error('HTTP '+response.status);return response.json();};
+    const card=(day,index)=>`<article class="day"><div class="name">${dayName(day.date,index)}</div><div class="date">${new Date(day.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div><div class="mark">${icon(day.code)}</div><div class="desc">${day.desc}</div><div class="temps"><strong>${Math.round(day.high)}&deg;</strong> <span class="low">${Math.round(day.low)}&deg;</span></div><div class="rain">Rain ${day.rain}%<br>Total ${day.total}</div></article>`;
+    async function loadOpenMeteo(){
+      const data=await fetchJson('https://api.open-meteo.com/v1/forecast?latitude=44.789&longitude=-93.602&current=temperature_2m,apparent_temperature,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset&temperature_unit=fahrenheit&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=7');
+      const now=data.current, daily=data.daily;
+      if(!now||!daily||!daily.time) throw new Error('bad payload');
+      document.querySelector('#temp').textContent=Math.round(now.temperature_2m)+'°';
+      document.querySelector('#condition').textContent=condition(now.weather_code);
+      document.querySelector('#updated').textContent='Feels like '+Math.round(now.apparent_temperature)+'° · Updated '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+      document.querySelector('#sun').textContent='Sunrise '+new Date(daily.sunrise[0]).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · Sunset '+new Date(daily.sunset[0]).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+      document.querySelector('#forecast').innerHTML=daily.time.map((date,i)=>card({date,code:daily.weather_code[i],desc:condition(daily.weather_code[i]),high:daily.temperature_2m_max[i],low:daily.temperature_2m_min[i],rain:daily.precipitation_probability_max[i],total:Number(daily.precipitation_sum[i]).toFixed(2)+' in'},i)).join('');
+    }
+    async function loadNws(){
+      const point=await fetchJson('https://api.weather.gov/points/44.789,-93.602');
+      const data=await fetchJson(point.properties.forecast);
+      const periods=data.properties.periods||[];
+      const days=periods.filter(p=>p.isDaytime).slice(0,7).map((period,i)=>{const night=periods[periods.indexOf(period)+1]||{};return {date:period.startTime.slice(0,10),code:0,desc:period.shortForecast||'Forecast',high:period.temperature,low:night.temperature!=null?night.temperature:period.temperature,rain:(period.probabilityOfPrecipitation&&period.probabilityOfPrecipitation.value)||0,total:(night.quantitativePrecipitation&&night.quantitativePrecipitation.value)?night.quantitativePrecipitation.value+' mm':'--'};});
+      const current=periods[0]||{};
+      document.querySelector('#temp').textContent=(current.temperature!=null?current.temperature:'--')+'°';
+      document.querySelector('#condition').textContent=current.shortForecast||'Forecast';
+      document.querySelector('#updated').textContent='NWS forecast · Updated '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+      document.querySelector('#forecast').innerHTML=days.map(card).join('');
+    }
+    async function load(){
+      try{ await loadOpenMeteo(); }
+      catch(e){ try{ await loadNws(); document.querySelector('#sun').textContent='Sunrise -- · Sunset --'; } catch(e2){ document.querySelector('#condition').innerHTML='<span class="error">Forecast unavailable. Refresh to retry.</span>'; } }
+    }
+    load();setInterval(load,900000);
+  </script>
+</body>
+</html>
