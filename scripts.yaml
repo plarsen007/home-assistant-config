@@ -58,3 +58,40 @@ basement_halloween:
     data:
       effect: Halloween
       brightness_pct: 35
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.gym_light_1
+      - light.gym_light_2
+      - light.gym_light_3
+    data:
+      effect: Halloween
+      brightness_pct: 35
+
+garage_candle_flicker:
+  alias: Garage Candle Flicker
+  mode: single
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.front_porch_garage_light_1
+      - light.front_porch_garage_light_2
+    data:
+      brightness_pct: 32
+      color_temp_kelvin: 2200
+      transition: 1
+  - repeat:
+      count: 3600
+      sequence:
+      - action: light.turn_on
+        target:
+          entity_id:
+          - light.front_porch_garage_light_1
+          - light.front_porch_garage_light_2
+        data:
+          brightness_pct: "{{ range(24, 46) | random }}"
+          color_temp_kelvin: "{{ range(2000, 2401) | random }}"
+          transition: 1
+      - delay:
+          seconds: "{{ range(2, 5) | random }}"
