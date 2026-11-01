@@ -440,6 +440,88 @@ views:
                 name: Pendant 1 DreamView
               - entity: switch.pendant_light_2_dream_view_toggle
                 name: Pendant 2 DreamView
+          - type: heading
+            heading: Pendant Quick Effects
+            heading_style: subtitle
+            icon: mdi:ceiling-light-multiple
+          - type: button
+            name: Aurora
+            icon: mdi:weather-night
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Aurora
+                brightness_pct: 45
+          - type: button
+            name: Firefly
+            icon: mdi:star-four-points
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Firefly
+                brightness_pct: 38
+          - type: button
+            name: Rainbow
+            icon: mdi:palette-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Rainbow
+                brightness_pct: 45
+          - type: button
+            name: Halloween
+            icon: mdi:halloween
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Halloween
+                brightness_pct: 35
+          - type: button
+            name: Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Thanksgiving
+                brightness_pct: 42
+          - type: button
+            name: Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.pendant_light_1
+                  - light.pendant_light_2
+              data:
+                effect: Christmas
+                brightness_pct: 45
       - type: grid
         cards:
           - type: heading
