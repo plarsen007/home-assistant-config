@@ -204,3 +204,26 @@ christmas_home:
     data:
       effect: Christmas
       brightness_pct: 45
+
+vikings_pendants:
+  alias: Vikings Purple and Gold Pendants
+  mode: single
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.pendant_light_1_segment_001
+      - light.pendant_light_1_segment_003
+      - light.pendant_light_2_segment_001
+      - light.pendant_light_2_segment_003
+    data:
+      rgb_color: [79, 38, 131]
+      brightness_pct: 60
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.pendant_light_1_segment_002
+      - light.pendant_light_2_segment_002
+    data:
+      rgb_color: [255, 198, 47]
+      brightness_pct: 65

@@ -414,6 +414,14 @@ views:
               data:
                 effect: Christmas
                 brightness_pct: 45
+          - type: button
+            name: Vikings Purple & Gold
+            icon: mdi:football-helmet
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.vikings_pendants
       - type: grid
         cards:
           - type: heading
