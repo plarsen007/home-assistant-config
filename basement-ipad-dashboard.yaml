@@ -277,9 +277,9 @@ views:
                   - light.under_steps_light
             hold_action:
               action: call-service
-              service: switch.turn_off
+              service: scene.turn_on
               target:
-                entity_id: switch.basement_backyard_lights
+                entity_id: scene.turn_off_outside_lights
       - type: grid
         cards:
           - type: heading
@@ -310,26 +310,81 @@ views:
             brightness: true
             color_temp: true
             color_picker: true
-          - type: entities
-            title: TV effects
-            show_header_toggle: false
-            entities:
-              - entity: select.tv_area_light_1_scene
-                name: Light 1 scene
-              - entity: select.tv_area_light_2_scene
-                name: Light 2 scene
-              - entity: select.tv_area_light_3_scene
-                name: Light 3 scene
-              - entity: select.tv_area_light_4_scene
-                name: Light 4 scene
-              - entity: switch.tv_area_light_1_music_mode
-                name: Light 1 music reactive mode
-              - entity: switch.tv_area_light_2_music_mode
-                name: Light 2 music reactive mode
-              - entity: switch.tv_area_light_3_music_mode
-                name: Light 3 music reactive mode
-              - entity: switch.tv_area_light_4_music_mode
-                name: Light 4 music reactive mode
+          - type: button
+            name: TV Movie
+            icon: mdi:movie-open-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+              data:
+                effect: Movie
+                brightness_pct: 28
+          - type: button
+            name: TV Game
+            icon: mdi:controller-classic
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+              data:
+                effect: Game
+                brightness_pct: 55
+          - type: button
+            name: TV Halloween
+            icon: mdi:halloween
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+              data:
+                effect: Halloween
+                brightness_pct: 35
+          - type: button
+            name: TV Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+              data:
+                effect: Thanksgiving
+                brightness_pct: 42
+          - type: button
+            name: TV Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.tv_area_light_1
+                  - light.tv_area_light_2
+                  - light.tv_area_light_3
+                  - light.tv_area_light_4
+              data:
+                effect: Christmas
+                brightness_pct: 45
       - type: grid
         cards:
           - type: heading
@@ -349,16 +404,12 @@ views:
             color_temp: true
             color_picker: true
           - type: entities
-            title: Pendant effects
+            title: Pendant controls
             show_header_toggle: false
             entities:
-              - entity: select.pendant_light_1_scene
-                name: Pendant 1 scene
-              - entity: select.pendant_light_2_scene
-                name: Pendant 2 scene
-              - entity: switch.pendant_light_1_dreamview
+              - entity: switch.pendant_light_1_dream_view_toggle
                 name: Pendant 1 DreamView
-              - entity: switch.pendant_light_2_dreamview
+              - entity: switch.pendant_light_2_dream_view_toggle
                 name: Pendant 2 DreamView
       - type: grid
         cards:
@@ -426,39 +477,59 @@ views:
             brightness: true
             color_temp: true
             color_picker: true
-          - type: entities
-            title: Bar scenes
-            show_header_toggle: false
-            entities:
-              - entity: select.bar_light_1_scene
-                name: Bar light 1 scene
-              - entity: select.bar_light_2_scene
-                name: Bar light 2 scene
-              - entity: select.bar_light_3_scene
-                name: Bar light 3 scene
-              - entity: select.bar_light_4_scene
-                name: Bar light 4 scene
-              - entity: select.window_area_1_scene
-                name: Window light 1 scene
-              - entity: select.window_area_2_scene
-                name: Window light 2 scene
-              - entity: switch.bar_light_1_music_mode
-                name: Bar light 1 music mode
-              - entity: switch.bar_light_2_music_mode
-                name: Bar light 2 music mode
-              - entity: switch.bar_light_3_music_mode
-                name: Bar light 3 music mode
-              - entity: switch.bar_light_4_music_mode
-                name: Bar light 4 music mode
-              - entity: switch.window_area_1_music_mode
-                name: Window light 1 music mode
-              - entity: switch.window_area_2_music_mode
-                name: Window light 2 music mode
+          - type: button
+            name: Bar Halloween
+            icon: mdi:halloween
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+              data:
+                effect: Halloween
+                brightness_pct: 35
+          - type: button
+            name: Bar Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+              data:
+                effect: Thanksgiving
+                brightness_pct: 42
+          - type: button
+            name: Bar Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id:
+                  - light.bar_light_1
+                  - light.bar_light_2
+                  - light.bar_light_3
+                  - light.bar_light_4
+                  - light.window_area_1
+                  - light.window_area_2
+              data:
+                effect: Christmas
+                brightness_pct: 45
           - type: tile
             entity: light.under_steps_light
             name: Under steps
             features:
               - type: light-brightness
-          - type: tile
-            entity: switch.basement_backyard_lights
-            name: Backyard lights
