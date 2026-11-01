@@ -225,5 +225,5 @@ vikings_pendants:
       - light.pendant_light_1_segment_002
       - light.pendant_light_2_segment_002
     data:
-      rgb_color: [255, 198, 47]
-      brightness_pct: 65
+      rgb_color: [255, 180, 0]
+      brightness_pct: 100
