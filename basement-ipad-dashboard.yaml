@@ -32,7 +32,7 @@ views:
               action: navigate
               navigation_path: /whole-home/overview
           - type: heading
-            heading: Lighting Presets
+            heading: Holiday Profiles
             heading_style: subtitle
             icon: mdi:lightbulb-group
           - type: button
@@ -43,6 +43,26 @@ views:
               service: script.turn_on
               target:
                 entity_id: script.basement_halloween
+          - type: button
+            name: Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.thanksgiving_home
+          - type: button
+            name: Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.christmas_home
+          - type: heading
+            heading: Room Presets
+            heading_style: subtitle
+            icon: mdi:movie-open
           - type: button
             name: Movie
             icon: mdi:movie-open-outline
