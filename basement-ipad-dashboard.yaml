@@ -84,6 +84,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Movie
                 brightness_pct: 28
@@ -107,6 +110,10 @@ views:
                   - light.bar_light_4
                   - light.window_area_1
                   - light.window_area_2
+                  - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Game
                 brightness_pct: 55
@@ -131,6 +138,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Warm
                 brightness_pct: 72
@@ -155,6 +165,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Night Light
                 brightness_pct: 12
@@ -179,6 +192,10 @@ views:
                   - light.bar_light_4
                   - light.window_area_1
                   - light.window_area_2
+                  - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Rainbow
                 brightness_pct: 45
@@ -203,6 +220,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 effect: Moonlight
                 brightness_pct: 32
