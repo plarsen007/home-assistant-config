@@ -31,6 +31,18 @@ views:
             tap_action:
               action: navigate
               navigation_path: /whole-home/overview
+          - type: heading
+            heading: Lighting Presets
+            heading_style: subtitle
+            icon: mdi:lightbulb-group
+          - type: button
+            name: Halloween
+            icon: mdi:halloween
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.basement_halloween
           - type: button
             name: Movie
             icon: mdi:movie-open-outline
@@ -328,6 +340,30 @@ views:
                 name: Pendant 1 DreamView
               - entity: switch.pendant_light_2_dreamview
                 name: Pendant 2 DreamView
+      - type: grid
+        cards:
+          - type: heading
+            heading: Gym
+            heading_style: subtitle
+            icon: mdi:dumbbell
+          - type: light
+            entity: light.gym_light_1
+            name: Gym light 1
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.gym_light_2
+            name: Gym light 2
+            brightness: true
+            color_temp: true
+            color_picker: true
+          - type: light
+            entity: light.gym_light_3
+            name: Gym light 3
+            brightness: true
+            color_temp: true
+            color_picker: true
       - type: grid
         cards:
           - type: heading
