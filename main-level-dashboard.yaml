@@ -62,26 +62,6 @@ views:
                   - light.living_room_hallway_light_2
                   - light.living_room_hallway_light_3
               data:
-          - type: heading
-            heading: Holiday Profiles
-            heading_style: subtitle
-            icon: mdi:party-popper
-          - type: button
-            name: Thanksgiving
-            icon: mdi:leaf-maple
-            tap_action:
-              action: call-service
-              service: script.turn_on
-              target:
-                entity_id: script.thanksgiving_home
-          - type: button
-            name: Christmas
-            icon: mdi:pine-tree
-            tap_action:
-              action: call-service
-              service: script.turn_on
-              target:
-                entity_id: script.christmas_home
                 brightness_pct: 100
                 color_temp_kelvin: 4000
           - type: button
