@@ -31,6 +31,10 @@ views:
             tap_action:
               action: navigate
               navigation_path: /whole-home/overview
+          - type: heading
+            heading: Everyday Presets
+            heading_style: subtitle
+            icon: mdi:lightbulb-group
           - type: button
             name: Bright
             icon: mdi:brightness-7
@@ -40,7 +44,7 @@ views:
               target:
                 entity_id:
                   - light.kitchen_kitchen_light_1
-                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_2_2
                   - light.kitchen_kitchen_light_3
                   - light.kitchen_kitchen_light_4
                   - light.unassigned_kitchen_island_lights
@@ -58,6 +62,26 @@ views:
                   - light.living_room_hallway_light_2
                   - light.living_room_hallway_light_3
               data:
+          - type: heading
+            heading: Holiday Profiles
+            heading_style: subtitle
+            icon: mdi:party-popper
+          - type: button
+            name: Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.thanksgiving_home
+          - type: button
+            name: Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.christmas_home
                 brightness_pct: 100
                 color_temp_kelvin: 4000
           - type: button
@@ -69,7 +93,7 @@ views:
               target:
                 entity_id:
                   - light.kitchen_kitchen_light_1
-                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_2_2
                   - light.kitchen_kitchen_light_3
                   - light.kitchen_kitchen_light_4
                   - light.unassigned_kitchen_island_lights
@@ -98,7 +122,7 @@ views:
               target:
                 entity_id:
                   - light.kitchen_kitchen_light_1
-                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_2_2
                   - light.kitchen_kitchen_light_3
                   - light.kitchen_kitchen_light_4
                   - light.unassigned_kitchen_island_lights
@@ -120,7 +144,7 @@ views:
               target:
                 entity_id:
                   - light.kitchen_kitchen_light_1
-                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_2_2
                   - light.kitchen_kitchen_light_3
                   - light.kitchen_kitchen_light_4
                   - light.unassigned_kitchen_island_lights
@@ -169,7 +193,7 @@ views:
               target:
                 entity_id:
                   - light.kitchen_kitchen_light_1
-                  - light.kitchen_kitchen_light_2
+                  - light.kitchen_kitchen_light_2_2
                   - light.kitchen_kitchen_light_3
                   - light.kitchen_kitchen_light_4
                   - light.unassigned_kitchen_island_lights
@@ -186,6 +210,26 @@ views:
                   - light.living_room_hallway_light_1
                   - light.living_room_hallway_light_2
                   - light.living_room_hallway_light_3
+          - type: heading
+            heading: Holiday Profiles
+            heading_style: subtitle
+            icon: mdi:party-popper
+          - type: button
+            name: Thanksgiving
+            icon: mdi:leaf-maple
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.thanksgiving_home
+          - type: button
+            name: Christmas
+            icon: mdi:pine-tree
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              target:
+                entity_id: script.christmas_home
       - type: grid
         cards:
           - type: heading
@@ -234,7 +278,7 @@ views:
             color_temp: true
             color_picker: true
           - type: light
-            entity: light.kitchen_kitchen_light_2
+            entity: light.kitchen_kitchen_light_2_2
             name: Kitchen light 2
             brightness: true
             color_temp: true

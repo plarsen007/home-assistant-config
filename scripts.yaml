@@ -95,3 +95,115 @@ garage_candle_flicker:
           transition: 1
       - delay:
           seconds: "{{ range(2, 5) | random }}"
+
+thanksgiving_home:
+  alias: Thanksgiving Color Profile
+  mode: single
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.kitchen_kitchen_light_1
+      - light.kitchen_kitchen_light_2_2
+      - light.kitchen_kitchen_light_3
+      - light.kitchen_kitchen_light_4
+      - light.living_room_left_light_1
+      - light.living_room_left_light_3
+      - light.living_room_right_light_2
+      - light.living_room_right_light_4
+      - light.living_room_left_fireplace_light
+      - light.living_room_right_fireplace_light
+      - light.living_room_entryway_bulb_1
+      - light.living_room_entryway_bulb_2
+      - light.living_room_entryway_bulb_3
+      - light.living_room_hallway_light_1
+      - light.living_room_hallway_light_2
+      - light.living_room_hallway_light_3
+    data:
+      hs_color: [34, 88]
+      brightness_pct: 52
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.living_room_left_light_3
+      - light.living_room_right_fireplace_light
+    data:
+      hs_color: [5, 82]
+      brightness_pct: 38
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.unassigned_kitchen_island_lights
+      - light.living_room_banister_lights
+    data:
+      brightness_pct: 50
+  - action: light.turn_on
+    target:
+      entity_id: light.basement_all
+    data:
+      effect: Thanksgiving
+      brightness_pct: 42
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.gym_light_1
+      - light.gym_light_2
+      - light.gym_light_3
+    data:
+      effect: Thanksgiving
+      brightness_pct: 42
+
+christmas_home:
+  alias: Christmas Color Profile
+  mode: single
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.kitchen_kitchen_light_1
+      - light.kitchen_kitchen_light_2_2
+      - light.living_room_left_light_1
+      - light.living_room_left_fireplace_light
+      - light.living_room_entryway_bulb_1
+      - light.living_room_hallway_light_1
+    data:
+      hs_color: [0, 94]
+      brightness_pct: 52
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.kitchen_kitchen_light_3
+      - light.kitchen_kitchen_light_4
+      - light.living_room_left_light_3
+      - light.living_room_right_light_2
+      - light.living_room_right_light_4
+      - light.living_room_right_fireplace_light
+      - light.living_room_entryway_bulb_2
+      - light.living_room_entryway_bulb_3
+      - light.living_room_hallway_light_2
+      - light.living_room_hallway_light_3
+    data:
+      hs_color: [120, 88]
+      brightness_pct: 44
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.unassigned_kitchen_island_lights
+      - light.living_room_banister_lights
+    data:
+      brightness_pct: 48
+  - action: light.turn_on
+    target:
+      entity_id: light.basement_all
+    data:
+      effect: Christmas
+      brightness_pct: 45
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.gym_light_1
+      - light.gym_light_2
+      - light.gym_light_3
+    data:
+      effect: Christmas
+      brightness_pct: 45
