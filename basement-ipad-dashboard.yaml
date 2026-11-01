@@ -227,6 +227,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 brightness_pct: 100
                 color_temp_kelvin: 2700
@@ -251,6 +254,9 @@ views:
                   - light.window_area_1
                   - light.window_area_2
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
               data:
                 brightness_pct: 5
                 color_temp_kelvin: 2700
@@ -275,6 +281,9 @@ views:
                   - light.window_area_2
                   - light.bar_light_4
                   - light.under_steps_light
+                  - light.gym_light_1
+                  - light.gym_light_2
+                  - light.gym_light_3
             hold_action:
               action: call-service
               service: scene.turn_on
