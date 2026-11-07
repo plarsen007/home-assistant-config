@@ -1,0 +1,57 @@
+# Patio TV (Samsung UN55D8000, 10.0.0.169): open the TV pages on it.
+# The TV's MainTVAgent2 service opens its built-in browser on a URL. It answers 401 unless the
+# request looks like a Samsung phone app, hence the User-Agent. Pages are served by the tv-pages
+# container on this host (http://10.0.0.11:8765/, source in Workspace/tv-cleanup/samsung/tv-pages).
+
+rest_command:
+  patio_tv_show_page:
+    url: "http://10.0.0.11:8765/api/show?page={{ page | urlencode }}"
+    method: get
+    timeout: 15
+
+  patio_tv_open_url:
+    url: "http://10.0.0.169:52235/MainTVServer2/control/MainTVAgent2"
+    method: post
+    timeout: 10
+    content_type: 'text/xml; charset="utf-8"'
+    headers:
+      User-Agent: "DLNADOC/1.50 SEC_HHP_[Mobile]Galaxy/1.0"
+      SOAPACTION: '"urn:samsung.com:service:MainTVAgent2:1#RunBrowser"'
+    payload: >-
+      <?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
+      s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:RunBrowser
+      xmlns:u="urn:samsung.com:service:MainTVAgent2:1"><BrowserURL>{{ url }}</BrowserURL></u:RunBrowser></s:Body></s:Envelope>
+
+script:
+  patio_tv_open_page:
+    alias: "Patio TV - Open TV page"
+    description: >
+      Open one of the TV pages (directory, fantasy, sportsbook, NFL, weather) in the patio TV's browser.
+      The TV must be on. Press Exit on the TV remote to go back to what was playing.
+    icon: mdi:television-guide
+    mode: single
+    fields:
+      page:
+        description: "Which page to open"
+        default: ""
+        selector:
+          select:
+            options:
+              - label: Directory
+                value: ""
+              - label: Fantasy
+                value: "fantasy/"
+              - label: Sportsbook
+                value: "odds/"
+              - label: NFL
+                value: "nfl/"
+              - label: Weather
+                value: "weather/"
+              - label: Radio
+                value: "radio/"
+    sequence:
+      # The tv-pages server switches the page inside its always-on shell (so the radio keeps playing), or opens
+      # the shell on the TV if it isn't showing.
+      - action: rest_command.patio_tv_show_page
+        data:
+          page: "{{ page | default('') }}"
